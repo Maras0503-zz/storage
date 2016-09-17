@@ -19,10 +19,10 @@ public class DbConnect {
     FileManipulators fm = new FileManipulators();
     String ip = fm.readIp();
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    String DB_URL = "jdbc:mysql://"+ip+":3306/storage";
+    String DB_URL = "jdbc:mysql://"+ip+":3306/devlivec_storage";
 
-    private static final String USER = "marek";
-    private static final String PASS = "marek";
+    private static final String USER = "devlivec_marek";
+    private static final String PASS = "marek123";
 
     Connection connection = null;
     PreparedStatement stmt = null;

@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import static java.lang.Math.round;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public class TimeFunctions {
     public long nowTimestamp(){
     	 Date date= new Date();
 	 Timestamp time = new Timestamp(date.getTime());
-         long time1 = time.getTime();
+         long time1 = round(time.getTime()/1000);
          return time1;
     }
     public boolean passTime(long changeDate){

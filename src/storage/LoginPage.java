@@ -7,18 +7,20 @@ package storage;
 
 import popups.SetServer;
 import db.DbQueries;
-import entities.UserEntity;
+import java.awt.event.KeyEvent;
+import popups.ChangePassword;
+import utilities.TimeFunctions;
 /**
  *
  * @author Marek
  */
-public class Storage extends javax.swing.JFrame {
-
-
+public class LoginPage extends javax.swing.JFrame {
+    TimeFunctions time = new TimeFunctions();
+    public static DbQueries conn = new DbQueries();
     /**
      * Creates new form Storage
      */
-    public Storage() {
+    public LoginPage() {
         initComponents();
     }
 
@@ -40,13 +42,24 @@ public class Storage extends javax.swing.JFrame {
         warningLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("LOGIN_PAGE");
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sett.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        loginBox.setText("Maras0503");
+
+        passBox.setText("Maras0503");
+        passBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passBoxKeyPressed(evt);
             }
         });
 
@@ -71,27 +84,24 @@ public class Storage extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(warningLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 620, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(warningLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(loginBox)
-                                    .addComponent(passBox))
-                                .addGap(216, 216, 216)))))
+                            .addComponent(loginBox, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(passBox))
+                        .addGap(216, 216, 216))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -99,7 +109,7 @@ public class Storage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(147, 147, 147)
+                .addGap(166, 166, 166)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(loginBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -109,32 +119,62 @@ public class Storage extends javax.swing.JFrame {
                     .addComponent(passBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         SetServer settings = new SetServer();
         settings.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DbQueries conn = new DbQueries();
-        UserEntity user = new UserEntity();
-        user = conn.login(loginBox.getText(),passBox.getText());
-        if(user.isLoginSucces()== true)
+        conn.userAns = conn.login(loginBox.getText(),passBox.getText());
+        if(conn.userAns.isLoginSucces()== true && conn.userAns.getId()!=0)
         {
-            warningLabel.setText(String.valueOf(user.getId()));
+            if(conn.checkTimePass(time.nowTimestamp(), conn.userAns.getId())){
+                ChangePassword chPass = new ChangePassword();
+                chPass.show();
+                this.hide();
+            }else{
+                MainWindow main_window = new MainWindow();
+                main_window.show();
+                this.hide();
+            }
         }
         else
         {
             warningLabel.setText("Niepoprawne hasło lub login");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void passBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passBoxKeyPressed
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER){
+        conn.userAns = conn.login(loginBox.getText(),passBox.getText());
+        if(conn.userAns.isLoginSucces()== true && conn.userAns.getId()!=0)
+        {
+            if(conn.checkTimePass(time.nowTimestamp(), conn.userAns.getId())){
+                ChangePassword chPass = new ChangePassword();
+                chPass.show();
+                this.hide();
+            }else{
+                MainWindow main_window = new MainWindow();
+                main_window.show();
+                this.hide();
+            }
+        }
+            else
+            {
+                warningLabel.setText("Niepoprawne hasło lub login");
+            }
+        }
+    }//GEN-LAST:event_passBoxKeyPressed
 
     /**
      * @param args the command line arguments
@@ -153,20 +193,21 @@ public class Storage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Storage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Storage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Storage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Storage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Storage().setVisible(true);
+                new LoginPage().setVisible(true);
             }
         });
     }
