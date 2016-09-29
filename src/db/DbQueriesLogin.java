@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Marek
  */
-public class DbQueries {
+public class DbQueriesLogin {
     public DbConnect conn = new DbConnect();
     public UserEntity userAns = new UserEntity();
     

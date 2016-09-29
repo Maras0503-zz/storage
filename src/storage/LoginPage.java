@@ -6,7 +6,7 @@
 package storage;
 
 import popups.SetServer;
-import db.DbQueries;
+import db.DbQueriesLogin;
 import java.awt.event.KeyEvent;
 import popups.ChangePassword;
 import utilities.TimeFunctions;
@@ -16,7 +16,7 @@ import utilities.TimeFunctions;
  */
 public class LoginPage extends javax.swing.JFrame {
     TimeFunctions time = new TimeFunctions();
-    public static DbQueries conn = new DbQueries();
+    public static DbQueriesLogin conn = new DbQueriesLogin();
     /**
      * Creates new form Storage
      */

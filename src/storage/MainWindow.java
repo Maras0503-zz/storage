@@ -8,6 +8,7 @@ package storage;
 import javax.swing.JRootPane;
 import popups.addUser;
 import popups.closeAccept;
+import popups.wzList;
 
 /**
  *
@@ -79,7 +80,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         documents.setText("Dokumenty");
 
-        newWZ.setText("Nowy WZ");
+        newWZ.setText("Wydania z magazynu (WZ)");
+        newWZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newWZActionPerformed(evt);
+            }
+        });
         documents.add(newWZ);
 
         jMenu3.add(documents);
@@ -115,7 +121,7 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(568, Short.MAX_VALUE)
+                .addContainerGap(582, Short.MAX_VALUE)
                 .addComponent(zalogowany)
                 .addContainerGap())
         );
@@ -133,6 +139,11 @@ public class MainWindow extends javax.swing.JFrame {
         addUser adUs = new addUser();
         adUs.show();
     }//GEN-LAST:event_addUserActionPerformed
+
+    private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
+        wzList wzL = new wzList();
+        wzL.show();
+    }//GEN-LAST:event_newWZActionPerformed
 
     /**
      * @param args the command line arguments

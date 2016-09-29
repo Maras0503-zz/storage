@@ -170,8 +170,9 @@ public class ChangePassword extends javax.swing.JFrame {
         
         
         if(inputsOk == 4){
-            long month = 60*60*24*30;
-            LoginPage.conn.changePass(time.nowTimestamp()+month, LoginPage.conn.userAns.getId(), newPass.getText());
+            long month = (long)30*24*60*60*1000;
+            long nextmonth = Math.addExact(month, time.nowTimestamp());
+            LoginPage.conn.changePass(nextmonth , LoginPage.conn.userAns.getId(), newPass.getText());
             MainWindow main_window = new MainWindow();
             main_window.show();
             this.hide();

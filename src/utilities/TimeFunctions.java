@@ -5,7 +5,6 @@
  */
 package utilities;
 
-import static java.lang.Math.round;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -23,16 +22,15 @@ public class TimeFunctions {
         return ans;
     }
     public long nowTimestamp(){
-    	 Date date= new Date();
-	 Timestamp time = new Timestamp(date.getTime());
-         long time1 = round(time.getTime()/1000);
-         return time1;
+    	 Date date = new Date();	 
+         long timeLong = date.getTime();
+         return timeLong;
     }
     public boolean passTime(long changeDate){
-        long expirationTime = 0;
-        expirationTime = 30*24*60*60*1000;
+        long expirationTime = 30*24*60*60*1000;
         boolean ans = false;
         if ((nowTimestamp()-changeDate > expirationTime)){
+            ans =  true;
         }    
         return ans;
     }
