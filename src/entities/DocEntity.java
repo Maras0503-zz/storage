@@ -13,12 +13,13 @@ import java.sql.Timestamp;
 public class DocEntity {
     int id;
 
-    public DocEntity(int id, int docNumber, int docYear, int docType, Timestamp docDate, String docContractorName, int docContractorId) {
+    public DocEntity(int id, int docNumber, int docYear, int docType, Timestamp docDate, Timestamp docAcceptDate, String docContractorName, int docContractorId) {
         this.id = id;
         this.docNumber = docNumber;
         this.docYear = docYear;
         this.docType = docType;
         this.docDate = docDate;
+        this.docAcceptDate = docAcceptDate;
         this.docContractorName = docContractorName;
         this.docContractorId = docContractorId;
     }
@@ -26,6 +27,7 @@ public class DocEntity {
     int docYear;
     int docType;
     Timestamp docDate;
+    Timestamp docAcceptDate;
     String docContractorName;
     int docContractorId;
 
@@ -35,6 +37,14 @@ public class DocEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Timestamp getDocAcceptDate() {
+        return docAcceptDate;
+    }
+
+    public void setDocAcceptDate(Timestamp docAcceptDate) {
+        this.docAcceptDate = docAcceptDate;
     }
 
     public int getDocNumber() {

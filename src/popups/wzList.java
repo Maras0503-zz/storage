@@ -9,6 +9,7 @@ import db.DbQueriesWZ;
 import entities.DocEntity;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import utilities.TimeFunctions;
 
 /**
  *
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class wzList extends javax.swing.JFrame {
 
     DbQueriesWZ wz = new DbQueriesWZ();
+    TimeFunctions time = new TimeFunctions();
     List<DocEntity> toShow = wz.getWZDocs();
     public wzList() {
         initComponents();
@@ -25,8 +27,8 @@ public class wzList extends javax.swing.JFrame {
     private void drawTable(List<DocEntity> docList){
         WZTable.getCellSelectionEnabled();
         DefaultTableModel dtm = new DefaultTableModel();
-        dtm.setColumnCount(6);
-        String headers[] = new String[] { "ID", "NUMER", "ROK", "ID KLIENTA", "KLIENT", "DATA" };
+        dtm.setColumnCount(7);
+        String headers[] = new String[] { "ID", "NUMER", "ROK", "ID KLIENTA", "KLIENT", "DATA", "DATA POTWIERDZENIA" };
         dtm.setRowCount(0);
         dtm.setColumnIdentifiers(headers);
         WZTable.setModel(dtm);
@@ -38,6 +40,7 @@ public class wzList extends javax.swing.JFrame {
               WZTable.getModel().setValueAt(docList.get(i).getDocContractorId(), i, 3);
               WZTable.getModel().setValueAt(docList.get(i).getDocContractorName(), i, 4);
               WZTable.getModel().setValueAt(docList.get(i).getDocDate(), i, 5);
+              WZTable.getModel().setValueAt(docList.get(i).getDocAcceptDate(), i, 6);
         }  
     }
     /**
@@ -53,10 +56,11 @@ public class wzList extends javax.swing.JFrame {
         WZTable = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        newWZ = new javax.swing.JMenuItem();
 
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         WZTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -78,8 +82,13 @@ public class wzList extends javax.swing.JFrame {
 
         jMenu1.setText("Dokumenty");
 
-        jMenuItem1.setText("Nowy dokument WZ");
-        jMenu1.add(jMenuItem1);
+        newWZ.setText("Nowy dokument WZ");
+        newWZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newWZActionPerformed(evt);
+            }
+        });
+        jMenu1.add(newWZ);
 
         jMenuBar1.add(jMenu1);
 
@@ -98,6 +107,14 @@ public class wzList extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
+        //select * from document_tab where document_type=1 order by document_id desc limit 1; get last document
+        DocEntity doc = wz.getLastWZ();
+        wz.addDoc(1, time.nowTimestamp(), 0, 0, 0, time.nowYear());
+        toShow = wz.getWZDocs();
+        drawTable(toShow);
+    }//GEN-LAST:event_newWZActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,7 +156,7 @@ public class wzList extends javax.swing.JFrame {
     private javax.swing.JTable WZTable;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem newWZ;
     // End of variables declaration//GEN-END:variables
 }
