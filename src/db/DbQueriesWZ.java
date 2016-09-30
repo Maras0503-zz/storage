@@ -6,6 +6,7 @@
 package db;
 
 import entities.DocEntity;
+import entities.DocProductEntity;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -101,6 +102,55 @@ public class DbQueriesWZ {
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+    public void delDoc(int docId){
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "delete from document_tab where document_id=?"
+        );
+        conn.stmt.setInt(1, docId);
+        
+        int rowInserted = conn.stmt.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public List<DocProductEntity> getDocProducts(int docId){
+        List<DocProductEntity> resultList = new ArrayList<>();
+        int id = 0;
+        String name = "";
+        float price = 0;
+        int vat = 0;
+        String unit;
+        float number;
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT product_id, product_name, product_price, vat_value, product_unit_short, document_rekords_product_number FROM document_rekords"
+                        +" inner join product_tab on product_tab.product_id = document_rekords.document_rekords_product_id"
+                        +" inner join product_unit_tab on product_unit_tab.product_unit_id = product_tab.product_unit"
+                        +" inner join vat_tab on vat_tab.vat_id = product_tab.product_vat"
+                        +" where document_rekords_document_id=?"
+            );
+            conn.stmt.setInt(1, docId);
+            conn.result = conn.stmt.executeQuery();
+                        
+            while(conn.result.next()){
+                id = conn.result.getInt("product_id");
+                name = conn.result.getString("product_name");
+                price = conn.result.getFloat("product_price");
+                vat = conn.result.getInt("vat_value");
+                unit = conn.result.getString("product_unit_short");
+                number = conn.result.getFloat("document_rekords_product_number");
+                resultList.add(new DocProductEntity(id, name, price, vat, unit, number));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return resultList;
     }
     
 }

@@ -7,6 +7,8 @@ package popups;
 
 import db.DbQueriesWZ;
 import entities.DocEntity;
+import entities.DocProductEntity;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import utilities.TimeFunctions;
@@ -20,6 +22,7 @@ public class wzList extends javax.swing.JFrame {
     DbQueriesWZ wz = new DbQueriesWZ();
     TimeFunctions time = new TimeFunctions();
     List<DocEntity> toShow = wz.getWZDocs();
+    List<DocProductEntity> productToShow = new ArrayList<>();
     public wzList() {
         initComponents();
         drawTable(toShow);
@@ -43,6 +46,45 @@ public class wzList extends javax.swing.JFrame {
               WZTable.getModel().setValueAt(docList.get(i).getDocAcceptDate(), i, 6);
         }  
     }
+    private void drawProductTable(List<DocProductEntity> prodList){
+        float sumNetto = 0;
+        float sumBrutto = 0;
+        float netto;
+        float vat;
+        float number;
+        float brutto;
+        float sbrutto;
+        float snetto;
+        productTable.getCellSelectionEnabled();
+        DefaultTableModel dtm = new DefaultTableModel();
+        dtm.setColumnCount(9);
+        String headers[] = new String[] { "ID", "NAZWA", "CENA NETTO", "CENA BRUTTO", "JEDNOSTKA", "STAWKA VAT", "ILOŚĆ", "SUMA NETTO", "SUMA BRUTTO" };
+        dtm.setRowCount(0);
+        dtm.setColumnIdentifiers(headers);
+        productTable.setModel(dtm);
+        dtm.setRowCount(prodList.size());    
+        for(int i = 0; i < prodList.size(); i++){
+                netto = prodList.get(i).getPrice();
+                vat = (float)prodList.get(i).getVat();
+                number = prodList.get(i).getNumber();
+                brutto = (float)(netto + (netto*(vat/100)));
+                sbrutto = (float)brutto*number;
+                sumBrutto += sbrutto;
+                snetto = (float)netto*number;
+                sumNetto += snetto;
+                productTable.getModel().setValueAt(prodList.get(i).getId(), i, 0);
+                productTable.getModel().setValueAt(prodList.get(i).getName(), i, 1);
+                productTable.getModel().setValueAt(prodList.get(i).getPrice(), i, 2);
+                productTable.getModel().setValueAt(brutto, i, 3);
+                productTable.getModel().setValueAt(prodList.get(i).getUnit(), i, 4);
+                productTable.getModel().setValueAt(prodList.get(i).getVat(), i, 5);
+                productTable.getModel().setValueAt(prodList.get(i).getNumber(), i, 6);
+                productTable.getModel().setValueAt(snetto, i, 7);
+                productTable.getModel().setValueAt(sbrutto, i, 8);
+        }  
+        nettoLabel.setText(String.valueOf(sumNetto));
+        bruttoLabel.setText(String.valueOf(sumBrutto));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +96,15 @@ public class wzList extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         WZTable = new javax.swing.JTable();
+        delWZBtt = new javax.swing.JButton();
+        newWZBtt = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        productTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        nettoLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        bruttoLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWZ = new javax.swing.JMenuItem();
@@ -61,6 +112,7 @@ public class wzList extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
 
         WZTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,6 +132,52 @@ public class wzList extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(WZTable);
 
+        delWZBtt.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        delWZBtt.setText("-");
+        delWZBtt.setMaximumSize(new java.awt.Dimension(40, 40));
+        delWZBtt.setMinimumSize(new java.awt.Dimension(40, 40));
+        delWZBtt.setPreferredSize(new java.awt.Dimension(40, 40));
+        delWZBtt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delWZBttActionPerformed(evt);
+            }
+        });
+
+        newWZBtt.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        newWZBtt.setText("+");
+        newWZBtt.setMaximumSize(new java.awt.Dimension(40, 40));
+        newWZBtt.setMinimumSize(new java.awt.Dimension(40, 40));
+        newWZBtt.setPreferredSize(new java.awt.Dimension(40, 40));
+        newWZBtt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newWZBttActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Pokaż pozycje dokumentu");
+        jButton1.setMaximumSize(new java.awt.Dimension(200, 23));
+        jButton1.setMinimumSize(new java.awt.Dimension(200, 23));
+        jButton1.setPreferredSize(new java.awt.Dimension(200, 23));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        productTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "NAZWA", "CENA NETTO", "CENA BRUTTO", "JEDNOSTKA", "STAWKA VAT", "ILOŚĆ", "SUMA NETTO", "SUMA BRUTTO"
+            }
+        ));
+        jScrollPane2.setViewportView(productTable);
+
+        jLabel1.setText("WARTOŚĆ NETTO:");
+
+        jLabel3.setText("WARTOŚĆ BRUTTO:");
+
         jMenu1.setText("Dokumenty");
 
         newWZ.setText("Nowy dokument WZ");
@@ -98,11 +196,45 @@ public class wzList extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane2)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(newWZBtt, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(delWZBtt, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nettoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bruttoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(delWZBtt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newWZBtt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(nettoLabel)
+                    .addComponent(jLabel3)
+                    .addComponent(bruttoLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,6 +247,26 @@ public class wzList extends javax.swing.JFrame {
         toShow = wz.getWZDocs();
         drawTable(toShow);
     }//GEN-LAST:event_newWZActionPerformed
+
+    private void newWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZBttActionPerformed
+        DocEntity doc = wz.getLastWZ();
+        wz.addDoc(1, time.nowTimestamp(), 0, 0, 0, time.nowYear());
+        toShow = wz.getWZDocs();
+        drawTable(toShow);
+    }//GEN-LAST:event_newWZBttActionPerformed
+
+    private void delWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delWZBttActionPerformed
+        int selectedDocId = Integer.valueOf(WZTable.getValueAt(WZTable.getSelectedRow(),0).toString());
+        wz.delDoc(selectedDocId);
+        toShow = wz.getWZDocs();
+        drawTable(toShow);
+    }//GEN-LAST:event_delWZBttActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int selectedDocId = Integer.valueOf(WZTable.getValueAt(WZTable.getSelectedRow(),0).toString());
+        productToShow = wz.getDocProducts(selectedDocId);
+        drawProductTable(productToShow);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,9 +306,18 @@ public class wzList extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable WZTable;
+    private javax.swing.JLabel bruttoLabel;
+    private javax.swing.JButton delWZBtt;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel nettoLabel;
     private javax.swing.JMenuItem newWZ;
+    private javax.swing.JButton newWZBtt;
+    private javax.swing.JTable productTable;
     // End of variables declaration//GEN-END:variables
 }
