@@ -37,7 +37,7 @@ public class addUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        addUserBtt = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -51,10 +51,10 @@ public class addUser extends javax.swing.JFrame {
 
         setResizable(false);
 
-        jButton1.setText("Dodaj użytkownika");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addUserBtt.setText("Dodaj użytkownika");
+        addUserBtt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addUserBttActionPerformed(evt);
             }
         });
 
@@ -82,7 +82,7 @@ public class addUser extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(addUserBtt))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -124,7 +124,7 @@ public class addUser extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(userT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
-                .addComponent(jButton1)
+                .addComponent(addUserBtt)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -132,7 +132,7 @@ public class addUser extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addUserBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserBttActionPerformed
         if(userFName.getText().length()>3 && userLName.getText().length()>3 && userLogin.getText().length()>5 && userPass.getText().length()>5){
         LoginPage.conn.addUser(userFName.getText(),userLName.getText() ,userLogin.getText(), userPass.getText(), userT.getSelectedItem().toString());
         this.hide();
@@ -140,7 +140,7 @@ public class addUser extends javax.swing.JFrame {
         else{
             
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addUserBttActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,7 +178,7 @@ public class addUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton addUserBtt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
