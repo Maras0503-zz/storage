@@ -5,6 +5,7 @@
  */
 package popups;
 
+import db.DbQueriesLogin;
 import entities.userType;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class addUser extends javax.swing.JFrame {
     /**
      * Creates new form addUser
      */
+    DbQueriesLogin QLog = new DbQueriesLogin();
     public addUser() {
         initComponents();
         List<userType> typeList = new ArrayList<>();
@@ -48,6 +50,7 @@ public class addUser extends javax.swing.JFrame {
         userLogin = new javax.swing.JTextField();
         userPass = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        alertLabel = new javax.swing.JLabel();
 
         setResizable(false);
 
@@ -73,6 +76,10 @@ public class addUser extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Typ użytkownka: ");
 
+        alertLabel.setForeground(new java.awt.Color(255, 0, 0));
+        alertLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        alertLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,6 +87,7 @@ public class addUser extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(alertLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(addUserBtt))
@@ -123,22 +131,93 @@ public class addUser extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(userT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(alertLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addUserBtt)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
     private void addUserBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserBttActionPerformed
-        if(userFName.getText().length()>3 && userLName.getText().length()>3 && userLogin.getText().length()>5 && userPass.getText().length()>5){
-        LoginPage.conn.addUser(userFName.getText(),userLName.getText() ,userLogin.getText(), userPass.getText(), userT.getSelectedItem().toString());
-        this.hide();
+        String alertText = "<html><center>";
+        int colonNeeded = 0;
+        int errorsCounter = 0;
+        int breakCounter = 0;
+        
+        //Sprawdzenie imienia
+        if(userFName.getText().length()==0){
+            alertText += "nie podano imienia";
+            colonNeeded++;
+            errorsCounter++;
+        }
+        
+        //Sprawdzenie czy potrzebny przecinek
+        if(colonNeeded == 1){
+            alertText+=", ";
+            colonNeeded--;
+        }
+        
+        //Sprawdzenie nazwiska
+        if(userLName.getText().length()==0){
+            alertText += "nie podano nazwiska";
+            colonNeeded++;
+            errorsCounter++;
+        }
+        //Sprawdzenie czy potrzebny przecinek
+        if(colonNeeded == 1){
+            alertText+=", ";
+            colonNeeded--;
+        }
+        if(errorsCounter > 2 && breakCounter == 0){
+            alertText += "<br>";
+            breakCounter++;
+        }
+        //Sprawdzenie czy podano login
+        if(userLogin.getText().length()==0){
+            alertText+="nie podano loginu";
+            colonNeeded++;
+            errorsCounter++;
+        }
+        
+        //Sprawdzenie czy potrzebny przecinek
+        if(colonNeeded == 1){
+            alertText+=", ";
+            colonNeeded--;
+        }
+        if(errorsCounter > 2 && breakCounter == 0){
+            alertText += "<br>";
+            breakCounter++;
+        }        
+        //Sprawdzanie czy login istnieje w bazie
+        if(QLog.loginExist(userLogin.getText()) == true){
+            alertText+="login zajęty";
+            colonNeeded++;
+            errorsCounter++;   
+        }
+        
+        //Sprawdzenie czy potrzebny przecinek
+        if(colonNeeded == 1){
+            alertText+=", ";
+            colonNeeded--;
+        }
+        if(errorsCounter > 2 && breakCounter == 0){
+            alertText += "<br>";
+            breakCounter++;
+        }
+        //Sprawdzenie czy podano login
+        if(userPass.getText().length()==0){
+            alertText+="nie podano hasła";
+            errorsCounter++;
+        }
+        if(errorsCounter == 0){
+            LoginPage.conn.addUser(userFName.getText(),userLName.getText() ,userLogin.getText(), userPass.getText(), userT.getSelectedItem().toString());
+            this.hide();
         }
         else{
-            
+            alertLabel.setText(alertText);
         }
     }//GEN-LAST:event_addUserBttActionPerformed
 
@@ -179,6 +258,7 @@ public class addUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserBtt;
+    private javax.swing.JLabel alertLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

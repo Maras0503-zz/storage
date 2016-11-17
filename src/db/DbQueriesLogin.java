@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import entities.UserEntity;
 import entities.userType;
+import java.io.Console;
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -68,6 +69,27 @@ public class DbQueriesLogin {
         conn.disconnect();
         return userAns;
     }
+    
+    //SPRAWDZA CZY LOGIN WYSTĘPUJE JUŻ W BAZIE
+    public Boolean loginExist(String login){
+        Boolean ans = false;
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement("select count(*) as cn from "
+                    + "user_tab where user_login=?");
+            conn.stmt.setString(1, login);
+            conn.result = conn.stmt.executeQuery();
+            conn.result.last();
+            System.out.println(conn.result.getInt("cn"));
+            if(conn.result.getInt("cn") == 1){
+                ans = true;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return ans;  
+    };
     
     //SPRAWDZA CZY AKTUALNY CZAS WIĘKSZY NIŻ CZAS HASŁA W BAZIE
     public Boolean checkTimePass(long czas, int userId){
