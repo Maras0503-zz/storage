@@ -34,5 +34,9 @@ public class TimeFunctions {
         }    
         return ans;
     }
-    
+    public int nowYear(){
+        Date date = new Date();
+        int year = date.getYear()+1900;
+        return year;
+    }
 }
