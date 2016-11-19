@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package storage;
+package windows;
 
 import javax.swing.JRootPane;
-import popups.addUser;
-import popups.closeAccept;
-import popups.wzList;
 
 /**
  *
@@ -50,12 +47,12 @@ public class MainWindow extends javax.swing.JFrame {
         documents = new javax.swing.JMenu();
         newWZ = new javax.swing.JMenuItem();
         products = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         adminMenu = new javax.swing.JMenu();
         addUser = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
@@ -91,6 +88,10 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu3.add(documents);
 
         products.setText("Towary");
+
+        jMenuItem1.setText("Katalog");
+        products.add(jMenuItem1);
+
         jMenu3.add(products);
 
         jMenuBar1.add(jMenu3);
@@ -191,6 +192,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenuItem newWZ;
     private javax.swing.JMenu products;

@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package storage;
+package windows;
 
-import popups.SetServer;
 import db.DbQueriesLogin;
 import java.awt.event.KeyEvent;
-import popups.ChangePassword;
 import utilities.TimeFunctions;
 /**
  *

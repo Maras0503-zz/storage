@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package popups;
+package windows;
 
 import db.DbQueriesWZ;
 import entities.DocEntity;
@@ -108,7 +108,6 @@ public class wzList extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         newWZ = new javax.swing.JMenuItem();
 
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
