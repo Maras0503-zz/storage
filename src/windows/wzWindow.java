@@ -9,25 +9,23 @@ import db.DbQueriesWZ;
 import entities.DocEntity;
 import entities.DocProductEntity;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import tableTemplates.productTableTemplate;
 import tableTemplates.wzTableTemplate;
-import utilities.TimeFunctions;
+import static utilities.TimeFunctions.*;
 import java.text.DecimalFormat;
 
 /**
  *
  * @author Marek
  */
-public class wzList extends javax.swing.JFrame {
-
+public class wzWindow extends javax.swing.JFrame {
+    public MainWindow parentFrame;
     DbQueriesWZ wz = new DbQueriesWZ();
-    TimeFunctions time = new TimeFunctions();
     public List<DocEntity> toShow = wz.getWZDocs();
     List<DocProductEntity> productToShow = new ArrayList<>();
-    public wzList() {
+    public wzWindow() {
         initComponents();
         drawTable(toShow);
     }
@@ -81,7 +79,7 @@ public class wzList extends javax.swing.JFrame {
                 productTable.getModel().setValueAt(dc.format(sbrutto), i, 8);
         }  
         nettoLabel.setText(String.valueOf(sumNetto));
-        bruttoLabel.setText(String.valueOf(sumBrutto));
+        bruttoLabel.setText(String.valueOf(dc.format(sumBrutto)));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -107,8 +105,11 @@ public class wzList extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWZ = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setUndecorated(true);
         setResizable(false);
 
         WZTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -198,6 +199,18 @@ public class wzList extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Okno");
+
+        jMenuItem1.setText("Zamknij");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -249,19 +262,20 @@ public class wzList extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
         //select * from document_tab where document_type=1 order by document_id desc limit 1; get last document
         DocEntity doc = wz.getLastWZ();
-        wz.addDoc(1, time.nowTimestamp(), 0, 0, 0, time.nowYear());
+        wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
         toShow = wz.getWZDocs();
         drawTable(toShow);
     }//GEN-LAST:event_newWZActionPerformed
 
     private void newWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZBttActionPerformed
         DocEntity doc = wz.getLastWZ();
-        wz.addDoc(1, time.nowTimestamp(), 0, 0, 0, time.nowYear());
+        wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
         toShow = wz.getWZDocs();
         drawTable(toShow);
     }//GEN-LAST:event_newWZBttActionPerformed
@@ -269,10 +283,11 @@ public class wzList extends javax.swing.JFrame {
     private void delWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delWZBttActionPerformed
         int selectedDocId = Integer.valueOf(WZTable.getValueAt(WZTable.getSelectedRow(),0).toString());
         Timestamp acceptDate = Timestamp.valueOf(WZTable.getValueAt(WZTable.getSelectedRow(),6).toString());
-        long acceptDateLong= time.timestampToLong(acceptDate);
+        long acceptDateLong= timestampToLong(acceptDate);
         if (acceptDateLong == 0){
             confirmDeleteDocument confDel = new confirmDeleteDocument();
             confDel.setDocumentID(selectedDocId);
+            this.disable();
             confDel.setWzL(this);
             confDel.show();
         }
@@ -287,6 +302,11 @@ public class wzList extends javax.swing.JFrame {
     private void openWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openWZBttActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_openWZBttActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        parentFrame.enable();
+        this.hide();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -305,21 +325,23 @@ public class wzList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(wzList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wzWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(wzList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wzWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(wzList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wzWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(wzList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wzWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new wzList().setVisible(true);
+                new wzWindow().setVisible(true);
             }
         });
     }
@@ -332,7 +354,9 @@ public class wzList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nettoLabel;

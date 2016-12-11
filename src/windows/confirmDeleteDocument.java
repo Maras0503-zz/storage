@@ -6,6 +6,7 @@
 package windows;
 
 import db.DbQueriesWZ;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -29,13 +30,13 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
     public void setDocumentID(int documentID) {
         this.documentID = documentID;
     }
-    private wzList wzL;
+    private wzWindow wzL;
 
-    public wzList getWzL() {
+    public wzWindow getWzL() {
         return wzL;
     }
 
-    public void setWzL(wzList wzL) {
+    public void setWzL(wzWindow wzL) {
         this.wzL = wzL;
     }
     
@@ -52,6 +53,8 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        setUndecorated(true);
+
         confirm.setText("TAK");
         confirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,6 +70,7 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Czy napewno chcesz usunąć dokument?");
 
@@ -97,16 +101,19 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     DbQueriesWZ wz = new DbQueriesWZ();
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         wz.delDoc(documentID);
         wzL.drawTable(wz.getWZDocs());
+        wzL.enable();
         this.hide();
     }//GEN-LAST:event_confirmActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        this.hide();
+        wzL.enable();
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_cancelActionPerformed
 
     /**

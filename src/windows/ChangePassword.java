@@ -7,14 +7,13 @@ package windows;
 
 import windows.LoginPage;
 import windows.MainWindow;
-import utilities.TimeFunctions;
+import static utilities.TimeFunctions.*;
 
 /**
  *
  * @author Marek
  */
 public class ChangePassword extends javax.swing.JFrame {
-    TimeFunctions time = new TimeFunctions();
     /**
      * Creates new form ChangePassword
      */
@@ -171,7 +170,7 @@ public class ChangePassword extends javax.swing.JFrame {
         
         if(inputsOk == 4){
             long month = (long)30*24*60*60*1000;
-            long nextmonth = Math.addExact(month, time.nowTimestamp());
+            long nextmonth = Math.addExact(month, nowTimestamp());
             LoginPage.conn.changePass(nextmonth , LoginPage.conn.userAns.getId(), newPass.getText());
             MainWindow main_window = new MainWindow();
             main_window.show();

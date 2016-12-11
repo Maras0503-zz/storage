@@ -5,7 +5,8 @@
  */
 package windows;
 
-import javax.swing.JRootPane;
+import java.awt.Frame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -15,18 +16,18 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
     int login = LoginPage.conn.userAns.getId();
     public MainWindow() {
         initComponents();
+        this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
         zalogowany.setText("Zalogowany: "+LoginPage.conn.userAns.getFname()+" "+LoginPage.conn.userAns.getLname());
         if(LoginPage.conn.userAns.getType()==1){
             adminMenu.show();
         }
         else{
             adminMenu.hide();
-        }
-
-        
+        }        
     }
 
     /**
@@ -38,10 +39,9 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
         zalogowany = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        logout = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         documents = new javax.swing.JMenu();
@@ -50,25 +50,20 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         adminMenu = new javax.swing.JMenu();
         addUser = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        logout = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(800, 640));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(800, 640));
         setResizable(false);
 
         zalogowany.setForeground(new java.awt.Color(0, 204, 51));
-
-        jMenu1.setText("File");
-
-        logout.setText("Zamknij");
-        logout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutActionPerformed(evt);
-            }
-        });
-        jMenu1.add(logout);
-
-        jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
@@ -108,6 +103,26 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(adminMenu);
 
+        jMenu4.setText("Okno");
+
+        jMenuItem3.setText("Minimalizuj");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        logout.setText("Zamknij");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        jMenu4.add(logout);
+
+        jMenuBar1.add(jMenu4);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -122,7 +137,7 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(582, Short.MAX_VALUE)
+                .addContainerGap(606, Short.MAX_VALUE)
                 .addComponent(zalogowany)
                 .addContainerGap())
         );
@@ -131,21 +146,35 @@ public class MainWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         closeAccept clAc = new closeAccept();
+        clAc.parentFrame = this;
+        this.disable();
         clAc.show();
     }//GEN-LAST:event_logoutActionPerformed
 
     private void addUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserActionPerformed
         addUser adUs = new addUser();
+        adUs.parentFrame = this;
+        this.disable();
         adUs.show();
     }//GEN-LAST:event_addUserActionPerformed
 
     private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
-        wzList wzL = new wzList();
+        wzWindow wzL = new wzWindow();
+        wzL.parentFrame = this;
+        this.disable();
         wzL.show();
     }//GEN-LAST:event_newWZActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    public void onClose(){
+        closeAccept clAc = new closeAccept();
+        clAc.show();
+    }
     /**
      * @param args the command line arguments
      */
@@ -188,11 +217,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem addUser;
     private javax.swing.JMenu adminMenu;
     private javax.swing.JMenu documents;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenuItem newWZ;
     private javax.swing.JMenu products;

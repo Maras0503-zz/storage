@@ -16,8 +16,8 @@ import java.io.IOException;
  *
  * @author Marek
  */
-public class FileManipulators {
-        public String readIp(){
+public  class FileManipulators {
+    public static String readIp(){
         FileReader fr = null;
         String ip = "";
         try{
@@ -38,8 +38,8 @@ public class FileManipulators {
         catch (IOException e) {
         }
         return ip;
-    }
-    public void saveIp(String str){
+    }  
+    public static void saveIp(String str){
         String ip = str;
         FileWriter fw = null;
         try {

@@ -13,20 +13,20 @@ import java.util.Date;
  * @author Marek
  */
 public class TimeFunctions {
-    public long timestampToLong(Timestamp time){
+    public static long timestampToLong(Timestamp time){
         long ans = time.getTime();
         return ans;
     }
-    public Timestamp longToTimestamp(long number){
+    public static Timestamp longToTimestamp(long number){
         Timestamp ans = new Timestamp(number);
         return ans;
     }
-    public long nowTimestamp(){
+    public static long nowTimestamp(){
     	 Date date = new Date();	 
          long timeLong = date.getTime();
          return timeLong;
     }
-    public boolean passTime(long changeDate){
+    public static boolean passTime(long changeDate){
         long expirationTime = 30*24*60*60*1000;
         boolean ans = false;
         if ((nowTimestamp()-changeDate > expirationTime)){
@@ -34,7 +34,7 @@ public class TimeFunctions {
         }    
         return ans;
     }
-    public int nowYear(){
+    public static int nowYear(){
         Date date = new Date();
         int year = date.getYear()+1900;
         return year;
