@@ -5,8 +5,10 @@
  */
 package db;
 
+import entities.ContractorEntity;
 import entities.DocEntity;
 import entities.DocProductEntity;
+import static java.lang.System.console;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +23,38 @@ import utilities.TimeFunctions;
 public class DbQueriesWZ {
     public DbConnect conn = new DbConnect();
     public TimeFunctions tm = new TimeFunctions();
+    
+    //LOOKING FOR CONTRACTOR
+    
+    public List<ContractorEntity> findContracor(String namePart, String nipPart){
+       List<ContractorEntity> resultList = new ArrayList<>();
+       int id, provider;
+       String name, city, street, nip, postalCode, country;
+       
+       conn.connect();
+       try{
+           conn.stmt = (PreparedStatement) conn.connection.prepareStatement("SELECT * FROM contractor_tab WHERE contractor_name LIKE ? AND replace(contractor_nip,'-','') LIKE ?");
+           conn.stmt.setString(1, '%'+namePart+'%');
+           conn.stmt.setString(2, '%'+nipPart+'%');
+           conn.result = conn.stmt.executeQuery();
+           while(conn.result.next()){
+                id = conn.result.getInt("contractor_id");
+                name = conn.result.getString("contractor_name");
+                nip = conn.result.getString("contractor_nip");
+                postalCode = conn.result.getString("contractor_postal_code");
+                city = conn.result.getString("contractor_city");
+                street = conn.result.getString("contractor_street");
+                country = conn.result.getString("contractor_country");
+                provider = conn.result.getInt("contractor_provider");
+                resultList.add(new ContractorEntity(id, name, nip, postalCode, city, street, country, provider));
+            }
+        }
+       catch(Exception e){
+           e.printStackTrace();
+       }
+       return resultList;
+    }
+    
     //GET DOCUMENT LIST
     public List<DocEntity> getWZDocs(){
         List<DocEntity> resultList = new ArrayList<>();

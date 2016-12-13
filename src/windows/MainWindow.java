@@ -113,6 +113,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem3);
 
+        logout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         logout.setText("Zamknij");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -15,6 +15,7 @@ import tableTemplates.productTableTemplate;
 import tableTemplates.wzTableTemplate;
 import static utilities.TimeFunctions.*;
 import java.text.DecimalFormat;
+import javax.swing.JFrame;
 
 /**
  *
@@ -22,10 +23,12 @@ import java.text.DecimalFormat;
  */
 public class wzWindow extends javax.swing.JFrame {
     public MainWindow parentFrame;
+    public int newWzContracorId;
     DbQueriesWZ wz = new DbQueriesWZ();
     public List<DocEntity> toShow = wz.getWZDocs();
     List<DocProductEntity> productToShow = new ArrayList<>();
     public wzWindow() {
+        this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
         initComponents();
         drawTable(toShow);
     }
@@ -201,6 +204,7 @@ public class wzWindow extends javax.swing.JFrame {
 
         jMenu2.setText("Okno");
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Zamknij");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +242,7 @@ public class wzWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bruttoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(514, Short.MAX_VALUE))
             .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
@@ -258,7 +262,7 @@ public class wzWindow extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(bruttoLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
         );
 
         pack();
@@ -268,16 +272,24 @@ public class wzWindow extends javax.swing.JFrame {
     private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
         //select * from document_tab where document_type=1 order by document_id desc limit 1; get last document
         DocEntity doc = wz.getLastWZ();
-        wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
-        toShow = wz.getWZDocs();
-        drawTable(toShow);
+        ContractorChoice cont = new ContractorChoice();
+        cont.parentFrame = this;
+        cont.show();
+        this.disable();
+        //wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
+        //toShow = wz.getWZDocs();
+        //drawTable(toShow);
     }//GEN-LAST:event_newWZActionPerformed
 
     private void newWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZBttActionPerformed
         DocEntity doc = wz.getLastWZ();
-        wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
-        toShow = wz.getWZDocs();
-        drawTable(toShow);
+        //wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
+        ContractorChoice cont = new ContractorChoice();
+        cont.parentFrame = this;
+        cont.show();
+        this.disable();
+        //toShow = wz.getWZDocs();
+        //drawTable(toShow);
     }//GEN-LAST:event_newWZBttActionPerformed
 
     private void delWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delWZBttActionPerformed
@@ -290,6 +302,12 @@ public class wzWindow extends javax.swing.JFrame {
             this.disable();
             confDel.setWzL(this);
             confDel.show();
+        }
+        else{
+            DocumentConfirmedAlert DocConfAlert = new DocumentConfirmedAlert();
+            DocConfAlert.parentFrame = this;
+            this.disable();
+            DocConfAlert.show();
         }
     }//GEN-LAST:event_delWZBttActionPerformed
 
