@@ -60,7 +60,6 @@ public class MainWindow extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(800, 640));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 640));
         setResizable(false);
 
         zalogowany.setForeground(new java.awt.Color(0, 204, 51));
@@ -85,6 +84,11 @@ public class MainWindow extends javax.swing.JFrame {
         products.setText("Towary");
 
         jMenuItem1.setText("Katalog");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         products.add(jMenuItem1);
 
         jMenu3.add(products);
@@ -172,6 +176,13 @@ public class MainWindow extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         this.setState(Frame.ICONIFIED);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        productsWindow prodWind = new productsWindow();
+        prodWind.parentFrame = this;
+        this.disable();
+        prodWind.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     public void onClose(){
         closeAccept clAc = new closeAccept();
         clAc.show();

@@ -44,6 +44,7 @@ public class ContractorChoice extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ContractorTable = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         closeWindow = new javax.swing.JMenuItem();
@@ -63,6 +64,11 @@ public class ContractorChoice extends javax.swing.JFrame {
         });
 
         jButton2.setText("WYBIERZ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         ContractorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -76,6 +82,8 @@ public class ContractorChoice extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(ContractorTable);
+
+        jButton3.setText("DODAJ KONTRAHENTA");
 
         jMenu2.setText("Okno");
 
@@ -109,7 +117,8 @@ public class ContractorChoice extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nipBox, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))
                 .addContainerGap())
@@ -128,7 +137,9 @@ public class ContractorChoice extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -145,6 +156,14 @@ public class ContractorChoice extends javax.swing.JFrame {
         List<ContractorEntity> contractorsList=wz.findContracor(nameBox.getText(), nipBox.getText());
         drawTable(contractorsList);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        parentFrame.addDocument(Integer.valueOf(ContractorTable.getValueAt(ContractorTable.getSelectedRow(),0).toString()));
+        parentFrame.toShow = parentFrame.wz.getWZDocs();
+        parentFrame.drawTable(parentFrame.toShow);
+        parentFrame.enable();
+        this.hide();
+    }//GEN-LAST:event_jButton2ActionPerformed
     public void drawTable(List<ContractorEntity> contractorsList){
         ContractorTable.getCellSelectionEnabled();
         ChoiceContractorsTableTemplate dtm = new ChoiceContractorsTableTemplate();
@@ -200,6 +219,7 @@ public class ContractorChoice extends javax.swing.JFrame {
     private javax.swing.JMenuItem closeWindow;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu2;

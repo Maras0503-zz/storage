@@ -270,26 +270,21 @@ public class wzWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
-        //select * from document_tab where document_type=1 order by document_id desc limit 1; get last document
         DocEntity doc = wz.getLastWZ();
         ContractorChoice cont = new ContractorChoice();
         cont.parentFrame = this;
         cont.show();
         this.disable();
-        //wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
-        //toShow = wz.getWZDocs();
-        //drawTable(toShow);
     }//GEN-LAST:event_newWZActionPerformed
-
+    public void addDocument(int id){
+        wz.addDoc(1, nowTimestamp(), 0, id, 0, nowYear());
+    }
     private void newWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZBttActionPerformed
         DocEntity doc = wz.getLastWZ();
-        //wz.addDoc(1, nowTimestamp(), 0, 0, 0, nowYear());
         ContractorChoice cont = new ContractorChoice();
         cont.parentFrame = this;
         cont.show();
         this.disable();
-        //toShow = wz.getWZDocs();
-        //drawTable(toShow);
     }//GEN-LAST:event_newWZBttActionPerformed
 
     private void delWZBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delWZBttActionPerformed

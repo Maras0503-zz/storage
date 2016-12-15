@@ -67,7 +67,26 @@ public class DbQueriesWZ {
                     "SELECT document_id, document_date, document_accept_date, document_year, document_number, document_type"
                             + ", document_contractor_id, contractor_name FROM document_tab"
                             + " inner join contractor_tab on document_tab.document_contractor_id=contractor_tab.contractor_id"
-                            + " where document_type=1 order by document_number desc"
+                            + " where document_type=1 and document_number = 0 order by document_id desc"
+            );
+            conn.result = conn.stmt.executeQuery();
+                        
+            while(conn.result.next()){
+                id = conn.result.getInt("document_id");
+                docNumber = conn.result.getInt("document_number");
+                docYear = conn.result.getInt("document_year");
+                docType = conn.result.getInt("document_type");
+                docDate = tm.longToTimestamp(conn.result.getLong("document_date"));
+                docAcceptDate = tm.longToTimestamp(conn.result.getLong("document_accept_date"));
+                docContractorName = conn.result.getString("contractor_name");
+                docContractorId = conn.result.getInt("document_contractor_id");
+                resultList.add(new DocEntity(id, docNumber, docYear, docType, docDate, docAcceptDate, docContractorName, docContractorId));
+            }
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT document_id, document_date, document_accept_date, document_year, document_number, document_type"
+                            + ", document_contractor_id, contractor_name FROM document_tab"
+                            + " inner join contractor_tab on document_tab.document_contractor_id=contractor_tab.contractor_id"
+                            + " where document_type=1 and document_number <> 0 order by document_number desc"
             );
             conn.result = conn.stmt.executeQuery();
                         
@@ -117,6 +136,7 @@ public class DbQueriesWZ {
         }
         return result;
     }
+    //ADD DOCUMENT
     public void addDoc(int docType, long docDate, long docAcceptDate, int contractorId, int DocNumber, int docYear){
         conn.connect();
         try{
