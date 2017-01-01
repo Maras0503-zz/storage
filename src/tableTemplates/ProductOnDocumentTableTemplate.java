@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Marek
  */
-public class productTableTemplate extends DefaultTableModel{
+public class ProductOnDocumentTableTemplate extends DefaultTableModel{
   
     @Override
     public int getColumnCount() {

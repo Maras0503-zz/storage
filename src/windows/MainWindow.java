@@ -50,6 +50,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         adminMenu = new javax.swing.JMenu();
         addUser = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         logout = new javax.swing.JMenuItem();
@@ -104,6 +105,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         adminMenu.add(addUser);
+
+        jMenuItem4.setText("Dodaj produkt");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        adminMenu.add(jMenuItem4);
 
         jMenuBar1.add(adminMenu);
 
@@ -183,6 +192,14 @@ public class MainWindow extends javax.swing.JFrame {
         this.disable();
         prodWind.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        addProduct addProd = new addProduct();
+        addProd.parentFrameMainWidnow = this;
+        addProd.parentFrameId = 2;
+        addProd.show();
+        this.disable();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
     public void onClose(){
         closeAccept clAc = new closeAccept();
         clAc.show();
@@ -236,6 +253,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenuItem newWZ;
     private javax.swing.JMenu products;

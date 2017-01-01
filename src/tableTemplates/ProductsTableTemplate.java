@@ -10,14 +10,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Marek
  */
-public class wzTableTemplate extends DefaultTableModel{
+public class ProductsTableTemplate extends DefaultTableModel{
   
     @Override
     public int getColumnCount() {
-        return 7;
+        return 9;
     }
-    
-    String headers[] = new String[] { "ID", "NUMER", "ROK", "ID KLIENTA", "KLIENT", "DATA", "DATA POTWIERDZENIA" };
+
+    String headers[] = new String[] { "ID", "NAZWA", "PRODUCENT", "ILOŚĆ", "CENA", "VAT", "GRUPA", "STATUS", "JEDN." };
        
     @Override
     public String getColumnName(int column) {

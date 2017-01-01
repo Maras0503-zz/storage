@@ -5,11 +5,9 @@
  */
 package windows;
 
-import db.DbQueriesWZ;
+import db.DbQueries;
 import entities.ContractorEntity;
-import entities.DocEntity;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import tableTemplates.ChoiceContractorsTableTemplate;
 
@@ -18,8 +16,10 @@ import tableTemplates.ChoiceContractorsTableTemplate;
  * @author Marek
  */
 public class ContractorChoice extends javax.swing.JFrame {
-    DbQueriesWZ wz = new DbQueriesWZ();
-    wzWindow parentFrame;
+    DbQueries wz = new DbQueries();
+    wzWindow parentFrameWzWindow;
+    addProduct parentFrameAddProduct;
+    int parentFrameId;
     /**
      * Creates new form ContractorChoice
      */
@@ -40,7 +40,7 @@ public class ContractorChoice extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         nameBox = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        findContractor = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ContractorTable = new javax.swing.JTable();
@@ -56,10 +56,10 @@ public class ContractorChoice extends javax.swing.JFrame {
 
         jLabel2.setText("Nazwa");
 
-        jButton1.setText("SZUKAJ");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        findContractor.setText("SZUKAJ");
+        findContractor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                findContractorActionPerformed(evt);
             }
         });
 
@@ -107,7 +107,7 @@ public class ContractorChoice extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(findContractor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -133,7 +133,7 @@ public class ContractorChoice extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(nameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(findContractor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -148,21 +148,42 @@ public class ContractorChoice extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeWindowActionPerformed
-        parentFrame.enable();
+        if(parentFrameId == 1){
+            parentFrameWzWindow.enable();
+        }
+        if(parentFrameId == 2){
+            parentFrameAddProduct.enable();
+        }
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_closeWindowActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        List<ContractorEntity> contractorsList=wz.findContracor(nameBox.getText(), nipBox.getText());
-        drawTable(contractorsList);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void findContractorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findContractorActionPerformed
+        if (parentFrameId == 1){
+            List<ContractorEntity> contractorsList=wz.findContracor(nameBox.getText(), nipBox.getText(), false);
+            drawTable(contractorsList);
+        }
+        if (parentFrameId == 2){
+            List<ContractorEntity> contractorsList=wz.findContracor(nameBox.getText(), nipBox.getText(), true);
+            drawTable(contractorsList);            
+        }
+    }//GEN-LAST:event_findContractorActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        parentFrame.addDocument(Integer.valueOf(ContractorTable.getValueAt(ContractorTable.getSelectedRow(),0).toString()));
-        parentFrame.toShow = parentFrame.wz.getWZDocs();
-        parentFrame.drawTable(parentFrame.toShow);
-        parentFrame.enable();
-        this.hide();
+        if(parentFrameId == 1){
+            parentFrameWzWindow.addDocument(Integer.valueOf(ContractorTable.getValueAt(ContractorTable.getSelectedRow(),0).toString()));
+            parentFrameWzWindow.toShow = parentFrameWzWindow.wz.getWZDocs();
+            parentFrameWzWindow.drawTable(parentFrameWzWindow.toShow);
+            parentFrameWzWindow.enable();   
+            this.hide();
+        }
+        if(parentFrameId == 2){
+            parentFrameAddProduct.selectedContractorId = (int) ContractorTable.getValueAt(ContractorTable.getSelectedRow(),0);
+            parentFrameAddProduct.selectedContractorName = ContractorTable.getValueAt(ContractorTable.getSelectedRow(),1).toString();
+            parentFrameAddProduct.selectedContractorIdLabel.setText(parentFrameAddProduct.selectedContractorId+"");
+            parentFrameAddProduct.selectedContractorNameLabel.setText(parentFrameAddProduct.selectedContractorName);
+            parentFrameAddProduct.enable(); 
+            this.hide();    
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
     public void drawTable(List<ContractorEntity> contractorsList){
         ContractorTable.getCellSelectionEnabled();
@@ -217,7 +238,7 @@ public class ContractorChoice extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable ContractorTable;
     private javax.swing.JMenuItem closeWindow;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton findContractor;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;

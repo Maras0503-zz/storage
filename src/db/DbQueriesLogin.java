@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import entities.UserEntity;
 import entities.userType;
-import java.io.Console;
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -132,7 +131,7 @@ public class DbQueriesLogin {
         conn.disconnect();
     }
     
-    public List getTypes(){
+    public List<userType> getTypes(){
         List<userType> ans = new ArrayList<>();
         int id;
         String name;

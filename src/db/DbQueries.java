@@ -8,7 +8,8 @@ package db;
 import entities.ContractorEntity;
 import entities.DocEntity;
 import entities.DocProductEntity;
-import static java.lang.System.console;
+import entities.ProductEntity;
+import entities.userType;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,24 +21,28 @@ import utilities.TimeFunctions;
  *
  * @author Marek
  */
-public class DbQueriesWZ {
+public class DbQueries {
     public DbConnect conn = new DbConnect();
     public TimeFunctions tm = new TimeFunctions();
     
     //LOOKING FOR CONTRACTOR
     
-    public List<ContractorEntity> findContracor(String namePart, String nipPart){
+    public List<ContractorEntity> findContracor(String namePart, String nipPart, boolean IsProvider){
        List<ContractorEntity> resultList = new ArrayList<>();
        int id, provider;
        String name, city, street, nip, postalCode, country;
        
        conn.connect();
        try{
-           conn.stmt = (PreparedStatement) conn.connection.prepareStatement("SELECT * FROM contractor_tab WHERE contractor_name LIKE ? AND replace(contractor_nip,'-','') LIKE ?");
-           conn.stmt.setString(1, '%'+namePart+'%');
-           conn.stmt.setString(2, '%'+nipPart+'%');
-           conn.result = conn.stmt.executeQuery();
-           while(conn.result.next()){
+            if(IsProvider == false){
+                conn.stmt = (PreparedStatement) conn.connection.prepareStatement("SELECT * FROM contractor_tab WHERE contractor_name LIKE ? AND replace(contractor_nip,'-','') LIKE ?");
+            }else{
+                conn.stmt = (PreparedStatement) conn.connection.prepareStatement("SELECT * FROM contractor_tab WHERE contractor_name LIKE ? AND replace(contractor_nip,'-','') LIKE ? AND contractor_provider=1");
+            }
+            conn.stmt.setString(1, '%'+namePart+'%');
+            conn.stmt.setString(2, '%'+nipPart+'%');
+            conn.result = conn.stmt.executeQuery();
+            while(conn.result.next()){
                 id = conn.result.getInt("contractor_id");
                 name = conn.result.getString("contractor_name");
                 nip = conn.result.getString("contractor_nip");
@@ -86,7 +91,7 @@ public class DbQueriesWZ {
                     "SELECT document_id, document_date, document_accept_date, document_year, document_number, document_type"
                             + ", document_contractor_id, contractor_name FROM document_tab"
                             + " inner join contractor_tab on document_tab.document_contractor_id=contractor_tab.contractor_id"
-                            + " where document_type=1 and document_number <> 0 order by document_number desc"
+                            + " where document_type=1 and document_number <> 0 order by document_number desc limit 30"
             );
             conn.result = conn.stmt.executeQuery();
                         
@@ -108,6 +113,8 @@ public class DbQueriesWZ {
         conn.disconnect();
         return resultList;
     }
+    
+    //POBIERZ OSTATNI DOKUMENT WZ
     public DocEntity getLastWZ(){
         int id = 0, docNumber = 0, docYear = 0, docType = 0, docContractorId = 0;
         Timestamp docDate = Timestamp.valueOf("1970-01-01 00:00:00.0"), docAcceptDate = Timestamp.valueOf("1970-01-01 00:00:00.0");
@@ -171,6 +178,49 @@ public class DbQueriesWZ {
             e.printStackTrace();
         }
     }
+
+    
+    //GET PRODUCT LIST
+
+    public List<ProductEntity> getProducts(){
+        List<ProductEntity> resultList = new ArrayList<>();       
+        
+        int id = 0, vat = 0;
+        String name = "", contractor = "", status = "", unit = "", group = "";
+        float number = 0, price = 0;
+                
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                "SELECT product_id, product_name, contractor_name, product_number, product_price, vat_value, product_status_name, product_group_name, product_unit_short FROM product_tab"
+                       +" inner join product_unit_tab on product_unit_tab.product_unit_id = product_tab.product_unit"
+                       +" inner join contractor_tab on contractor_tab.contractor_id = product_tab.product_producer"
+                       +" inner join product_group_tab on product_group_tab.product_group_id = product_tab.product_group"
+                       +" inner join product_status_tab on product_status_tab.product_status_id = product_tab.product_unit"
+                       +" inner join vat_tab on vat_tab.vat_id = product_tab.product_vat"
+            );
+            conn.result = conn.stmt.executeQuery();
+                        
+            while(conn.result.next()){
+                id = conn.result.getInt("product_id");
+                name = conn.result.getString("product_name");
+                contractor = conn.result.getString("contractor_name");
+                number = conn.result.getFloat("product_number");
+                price = conn.result.getFloat("product_price");
+                vat = conn.result.getInt("vat_value");
+                status = conn.result.getString("product_status_name");
+                group = conn.result.getString("product_group_name");
+                unit = conn.result.getString("product_unit_short");
+                resultList.add(new ProductEntity(id, name, contractor, number, price, vat, group, status, unit));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+    
+    //GET PRODUCTS ON DOCUMENT
     public List<DocProductEntity> getDocProducts(int docId){
         List<DocProductEntity> resultList = new ArrayList<>();
         int id = 0;

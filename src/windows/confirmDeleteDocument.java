@@ -5,7 +5,7 @@
  */
 package windows;
 
-import db.DbQueriesWZ;
+import db.DbQueries;
 import java.awt.event.WindowEvent;
 
 /**
@@ -22,7 +22,18 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
     }
 
     private int documentID;
+    private int selectedRow;
 
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public void setSelectedRow(int selectedRow) {
+        this.selectedRow = selectedRow;
+    }
+
+    
+    
     public int getDocumentID() {
         return documentID;
     }
@@ -103,7 +114,7 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    DbQueriesWZ wz = new DbQueriesWZ();
+    DbQueries wz = new DbQueries();
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         wz.delDoc(documentID);
         wzL.drawTable(wz.getWZDocs());

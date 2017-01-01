@@ -11,15 +11,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import utilities.FileManipulators;
+import static utilities.FileManipulators.saveLog;
 /**
  *
  * @author Marek
  */
 public class DbConnect {
     FileManipulators fm = new FileManipulators();
-    String ip = fm.readIp();
+    String ip;
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    String DB_URL = "jdbc:mysql://"+ip+":3306/devlivec_storage";
+    String DB_URL;
 
     private static final String USER = "devlivec_marek";
     private static final String PASS = "marek123";
@@ -30,12 +31,17 @@ public class DbConnect {
     
     public void connect(){
       try {
+        ip = fm.readIp();
+        DB_URL = "jdbc:mysql://"+ip+":3306/devlivec_storage";
         Class.forName(JDBC_DRIVER);
         System.out.println("Opening connection...");
         connection = DriverManager.getConnection(DB_URL, USER, PASS);
         System.out.println("Connection established");
       } 
       catch (ClassNotFoundException | SQLException e) {
+      }
+      finally{
+          saveLog();
       }
     }
 
