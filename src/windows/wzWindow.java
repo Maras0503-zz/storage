@@ -355,6 +355,7 @@ public class wzWindow extends javax.swing.JFrame {
         DocEntity doc = wz.getLastWZ();
         ContractorChoice cont = new ContractorChoice();
         cont.parentFrameWzWindow = this;
+        cont.parentFrameId = 1;
         cont.show();
         this.disable();
     }//GEN-LAST:event_newWZActionPerformed
@@ -396,7 +397,7 @@ public class wzWindow extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         parentFrame.enable();
-        this.hide();
+        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

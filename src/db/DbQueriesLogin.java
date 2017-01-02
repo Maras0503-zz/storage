@@ -19,6 +19,17 @@ public class DbQueriesLogin {
     public DbConnect conn = new DbConnect();
     public UserEntity userAns = new UserEntity();
     
+    //LOGOUT
+    public void logout(){
+        userAns.setId(0);
+        userAns.setFname("");
+        userAns.setLname("");
+        userAns.setLoginSucces(false);
+        userAns.setPass_expiration(0);
+        userAns.setType(0);
+    }
+    
+    
     //SPRAWDZA CZY PRZY ZMIANIE HASŁA PODANO POPRAWNE STARE HASŁO
     public Boolean checkPass(String pass, int userId){
         Boolean ans = false;

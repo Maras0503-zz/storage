@@ -9,7 +9,8 @@ import entities.ContractorEntity;
 import entities.DocEntity;
 import entities.DocProductEntity;
 import entities.ProductEntity;
-import entities.userType;
+import entities.groupEntity;
+import entities.vatEntity;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +25,56 @@ import utilities.TimeFunctions;
 public class DbQueries {
     public DbConnect conn = new DbConnect();
     public TimeFunctions tm = new TimeFunctions();
+    
+    //GET LIST OF GROUPS FROM DB
+    public List<groupEntity> getGroups(){
+        List<groupEntity> ans = new ArrayList<>();
+        int id;
+        String name;
+        String nameShort;
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT * FROM product_group_tab"
+            );
+            conn.result = conn.stmt.executeQuery();
+            while(conn.result.next()){
+                id = conn.result.getInt("product_group_id");
+                name = conn.result.getString("product_group_name");
+                nameShort = conn.result.getString("product_group_short");
+                ans.add(new groupEntity(id,name,nameShort));
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }        
+        conn.disconnect();
+        return ans;
+    }
+    
+        //GET LIST OF VATS FROM DB
+    public List<vatEntity> getVat(){
+        List<vatEntity> ans = new ArrayList<>();
+        int id;
+        int value;
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT * FROM vat_tab"
+            );
+            conn.result = conn.stmt.executeQuery();
+            while(conn.result.next()){
+                id = conn.result.getInt("vat_id");
+                value = conn.result.getInt("vat_value");
+                ans.add(new vatEntity(id,value));
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }        
+        conn.disconnect();
+        return ans;
+    }
     
     //LOOKING FOR CONTRACTOR
     
@@ -164,6 +215,8 @@ public class DbQueries {
             e.printStackTrace();
         }
     }
+    
+    //DELETE DOCUMENT
     public void delDoc(int docId){
         conn.connect();
         try{

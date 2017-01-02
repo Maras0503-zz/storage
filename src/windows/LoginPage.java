@@ -172,11 +172,11 @@ public class LoginPage extends javax.swing.JFrame {
             if(conn.checkTimePass(nowTimestamp(), conn.userAns.getId())){
                 ChangePassword chPass = new ChangePassword();
                 chPass.show();
-                this.hide();
+                this.dispose();
             }else{
                 MainWindow main_window = new MainWindow();
                 main_window.show();
-                this.hide();
+                this.dispose();
             }
         }
             else

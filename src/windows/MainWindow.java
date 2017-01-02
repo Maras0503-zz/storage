@@ -43,6 +43,8 @@ public class MainWindow extends javax.swing.JFrame {
         zalogowany = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         documents = new javax.swing.JMenu();
         newWZ = new javax.swing.JMenuItem();
@@ -65,7 +67,24 @@ public class MainWindow extends javax.swing.JFrame {
 
         zalogowany.setForeground(new java.awt.Color(0, 204, 51));
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Użytkownik");
+
+        jMenuItem6.setText("Zmień hasło");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem5.setText("Wyloguj");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Magazyn");
@@ -200,6 +219,19 @@ public class MainWindow extends javax.swing.JFrame {
         addProd.show();
         this.disable();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        LoginPage.conn.logout();
+        LoginPage logPage = new LoginPage();
+        logPage.show();
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ChangePassword chPass = new ChangePassword();
+        chPass.isParentMainWindow = 1;
+        chPass.show();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
     public void onClose(){
         closeAccept clAc = new closeAccept();
         clAc.show();
@@ -254,6 +286,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenuItem newWZ;
     private javax.swing.JMenu products;
