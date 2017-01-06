@@ -6,8 +6,10 @@
 package windows;
 
 import db.DbQueriesLogin;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
 import static utilities.TimeFunctions.*;
 /**
  *
@@ -19,6 +21,7 @@ public class LoginPage extends javax.swing.JFrame {
      * Creates new form Storage
      */
     public LoginPage() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 

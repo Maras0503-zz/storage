@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package windows;
 
 import db.DbQueries;
@@ -15,13 +10,16 @@ import javax.swing.table.DefaultTableCellRenderer;
 import tableTemplates.ProductsTableTemplate;
 import static utilities.Other.getScreenWidth;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 /**
  *
  * @author Marek
  */
 public class productsWindow extends javax.swing.JFrame {
-    DbQueries wz = new DbQueries();
+    public DbQueries wz = new DbQueries();
     public List<ProductEntity> toShow = wz.getProducts();
     MainWindow parentFrame;
     public productsWindow() {
@@ -48,6 +46,7 @@ public class productsWindow extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         adminMenu = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        withdrawUnwithdrawBtt = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -88,6 +87,14 @@ public class productsWindow extends javax.swing.JFrame {
         });
         adminMenu.add(jMenuItem2);
 
+        withdrawUnwithdrawBtt.setText("Oznacz produkt jako wycofany/aktywny");
+        withdrawUnwithdrawBtt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawUnwithdrawBttActionPerformed(evt);
+            }
+        });
+        adminMenu.add(withdrawUnwithdrawBtt);
+
         jMenuBar1.add(adminMenu);
 
         setJMenuBar(jMenuBar1);
@@ -96,7 +103,7 @@ public class productsWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,12 +127,28 @@ public class productsWindow extends javax.swing.JFrame {
         this.disable();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void withdrawUnwithdrawBttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawUnwithdrawBttActionPerformed
+        String status = productTable.getValueAt(productTable.getSelectedRow(),7).toString();
+        confirmWithdrawUnwithdrawProduct confirmWithdraw = new confirmWithdrawUnwithdrawProduct();
+        confirmWithdraw.prWind = this;
+        confirmWithdraw.productId = (int) productTable.getValueAt(productTable.getSelectedRow(),0);
+        confirmWithdraw.status = status;
+        confirmWithdraw.selectedId = productTable.getSelectedRow();
+        if(status.equalsIgnoreCase("AKTYWNY")){
+            confirmWithdraw.question.setText("Czy chcesz wycofać produkt?");
+        }else{
+            confirmWithdraw.question.setText("Czy chcesz przywrócić produkt?");
+        }
+        confirmWithdraw.show();
+        this.disable();
+    }//GEN-LAST:event_withdrawUnwithdrawBttActionPerformed
+
     public void drawTable(List<ProductEntity> docList){
         ProductsTableTemplate dtm = new ProductsTableTemplate();
         productTable.setModel(dtm);
         
         //SET SIZE OF TABLE 6PX LESS THAN SCREEN RESOLUTION
-        productTable.setSize(getScreenWidth()-21, 300);
+        productTable.setSize(getScreenWidth()-29, 300);
         productTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         int tableWidth = productTable.getWidth();
         int temp = 0;
@@ -145,7 +168,6 @@ public class productsWindow extends javax.swing.JFrame {
         temp += (int)round(tableWidth*0.1);
         productTable.getColumnModel().getColumn(1).setPreferredWidth(round(tableWidth-temp)/2);
         productTable.getColumnModel().getColumn(2).setPreferredWidth(round(tableWidth-temp)/2);
-        
         //INPUT DATA INTO TABLE
         dtm.setRowCount(docList.size());    
         for(int i = 0; i < docList.size(); i++){
@@ -218,6 +240,7 @@ public class productsWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable productTable;
+    public javax.swing.JTable productTable;
+    private javax.swing.JMenuItem withdrawUnwithdrawBtt;
     // End of variables declaration//GEN-END:variables
 }

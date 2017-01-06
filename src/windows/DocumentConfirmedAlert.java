@@ -5,18 +5,21 @@
  */
 package windows;
 
+import java.awt.Color;
 import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
 
 /**
  *
  * @author Marek
  */
 public class DocumentConfirmedAlert extends javax.swing.JFrame {
-    public wzWindow parentFrame;
+    public wzListWindow parentFrame;
     /**
      * Creates new form DocumentConfirmedAlert
      */
     public DocumentConfirmedAlert() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 

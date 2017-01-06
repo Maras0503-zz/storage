@@ -6,7 +6,9 @@
 package windows;
 
 import db.DbQueries;
+import java.awt.Color;
 import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -18,6 +20,7 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
      * Creates new form confirmDeleteDocument
      */
     public confirmDeleteDocument() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 
@@ -41,13 +44,13 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
     public void setDocumentID(int documentID) {
         this.documentID = documentID;
     }
-    private wzWindow wzL;
+    private wzListWindow wzL;
 
-    public wzWindow getWzL() {
+    public wzListWindow getWzL() {
         return wzL;
     }
 
-    public void setWzL(wzWindow wzL) {
+    public void setWzL(wzListWindow wzL) {
         this.wzL = wzL;
     }
     

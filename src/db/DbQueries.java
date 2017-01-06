@@ -10,6 +10,7 @@ import entities.DocEntity;
 import entities.DocProductEntity;
 import entities.ProductEntity;
 import entities.groupEntity;
+import entities.unitEntity;
 import entities.vatEntity;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -26,6 +27,23 @@ public class DbQueries {
     public DbConnect conn = new DbConnect();
     public TimeFunctions tm = new TimeFunctions();
     
+    //WITHDRAW PRODUCT
+    
+    public void withdrawUnwithdraw(int id, int status){
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "UPDATE product_tab SET product_status=? WHERE product_id=?"
+        );
+        conn.stmt.setInt(1, status);
+        conn.stmt.setInt(2, id);
+        
+        int rowInserted = conn.stmt.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     //GET LIST OF GROUPS FROM DB
     public List<groupEntity> getGroups(){
         List<groupEntity> ans = new ArrayList<>();
@@ -52,7 +70,72 @@ public class DbQueries {
         return ans;
     }
     
-        //GET LIST OF VATS FROM DB
+    //ADD PRODUCT
+    public void addProduct(String name, int producerId, float price, String group, int vat, String ean, String unit){
+        conn.connect();
+        int groupId=0;
+        int vatId=0;
+        int unitId=0;
+        
+        //----
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT product_group_id FROM product_group_tab WHERE product_group_name=?"
+            );
+            conn.stmt.setString(1, group);
+            conn.result = conn.stmt.executeQuery();
+            conn.result.last();
+            groupId= conn.result.getInt("product_group_id");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        //----
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT vat_id FROM vat_tab WHERE vat_value=?"
+            );
+            conn.stmt.setInt(1, vat);
+            conn.result = conn.stmt.executeQuery();
+            conn.result.last();
+            vatId= conn.result.getInt("vat_id");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        //----
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT product_unit_id FROM product_unit_tab WHERE product_unit_name=?"
+            );
+            conn.stmt.setString(1, unit);
+            conn.result = conn.stmt.executeQuery();
+            conn.result.last();
+            unitId= conn.result.getInt("product_unit_id");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "insert into product_tab (product_name, product_producer, product_number, product_price, product_vat, product_last_price, product_ean, product_group, product_status, product_unit) "
+                            + "values (?,?,0,?,?,0,?,?,1,?)"
+        );
+      conn.stmt.setString(1, name);
+      conn.stmt.setInt(2, producerId);
+      conn.stmt.setFloat(3, price);
+      conn.stmt.setInt(4, vatId);
+      conn.stmt.setString(5, ean);
+      conn.stmt.setInt(6, groupId);
+      conn.stmt.setInt(7, unitId);
+        
+        int rowInserted = conn.stmt.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    } 
+    
+    //GET LIST OF VATS FROM DB
     public List<vatEntity> getVat(){
         List<vatEntity> ans = new ArrayList<>();
         int id;
@@ -75,6 +158,32 @@ public class DbQueries {
         conn.disconnect();
         return ans;
     }
+    
+    //GET LIST OF UNITS FROM DB
+    public List<unitEntity> getUnits(){
+        List<unitEntity> ans = new ArrayList<>();
+        int id;
+        String name;
+        String nameShort;
+        conn.connect();
+        try{
+            conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
+                    "SELECT * FROM product_unit_tab"
+            );
+            conn.result = conn.stmt.executeQuery();
+            while(conn.result.next()){
+                id = conn.result.getInt("product_unit_id");
+                name = conn.result.getString("product_unit_name");
+                nameShort = conn.result.getString("product_unit_short");
+                ans.add(new unitEntity(id, name, nameShort));
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }        
+        conn.disconnect();
+        return ans;
+    }    
     
     //LOOKING FOR CONTRACTOR
     
@@ -246,12 +355,13 @@ public class DbQueries {
         try{
             conn.stmt = (PreparedStatement) conn.connection.prepareStatement(
                 "SELECT product_id, product_name, contractor_name, product_number, product_price, vat_value, product_status_name, product_group_name, product_unit_short FROM product_tab"
-                       +" inner join product_unit_tab on product_unit_tab.product_unit_id = product_tab.product_unit"
-                       +" inner join contractor_tab on contractor_tab.contractor_id = product_tab.product_producer"
-                       +" inner join product_group_tab on product_group_tab.product_group_id = product_tab.product_group"
-                       +" inner join product_status_tab on product_status_tab.product_status_id = product_tab.product_unit"
-                       +" inner join vat_tab on vat_tab.vat_id = product_tab.product_vat"
+                       +" join contractor_tab on product_tab.product_producer = contractor_tab.contractor_id"
+                       +" join vat_tab on product_tab.product_vat = vat_tab.vat_id"
+                       +" join product_group_tab on product_tab.product_group = product_group_tab.product_group_id"
+                       +" join product_status_tab on product_status_tab.product_status_id = product_tab.product_status"
+                       +" join product_unit_tab on product_tab.product_unit = product_unit_tab.product_unit_id order by product_id"
             );
+       
             conn.result = conn.stmt.executeQuery();
                         
             while(conn.result.next()){

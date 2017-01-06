@@ -5,6 +5,8 @@
  */
 package windows;
 
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import static utilities.FileManipulators.*;
 /**
  *
@@ -12,6 +14,7 @@ import static utilities.FileManipulators.*;
  */
 public class SetServer extends javax.swing.JFrame {
     public SetServer() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
         ipAddressField.setText(readIp());
     }

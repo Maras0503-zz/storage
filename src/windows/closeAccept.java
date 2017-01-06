@@ -5,7 +5,9 @@
  */
 package windows;
 
+import java.awt.Color;
 import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -17,6 +19,7 @@ public class closeAccept extends javax.swing.JFrame {
      * Creates new form closeAccept
      */
     public closeAccept() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 

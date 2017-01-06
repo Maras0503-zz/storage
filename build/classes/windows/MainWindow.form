@@ -76,7 +76,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="addUser">
               <Properties>
-                <Property name="label" type="java.lang.String" value="Dodaj U&#x17c;ytkownika"/>
+                <Property name="text" type="java.lang.String" value="Dodaj u&#x17c;ytkownika"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addUserActionPerformed"/>

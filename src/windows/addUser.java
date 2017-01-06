@@ -7,9 +7,11 @@ package windows;
 
 import db.DbQueriesLogin;
 import entities.userType;
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -23,6 +25,7 @@ public class addUser extends javax.swing.JFrame {
     MainWindow parentFrame;
     DbQueriesLogin QLog = new DbQueriesLogin();
     public addUser() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
         List<userType> typeList = new ArrayList<>();
         typeList = LoginPage.conn.getTypes();
@@ -227,6 +230,7 @@ public class addUser extends javax.swing.JFrame {
         }
         if(errorsCounter == 0){
             LoginPage.conn.addUser(userFName.getText(),userLName.getText() ,userLogin.getText(), userPass.getText(), userT.getSelectedItem().toString());
+            parentFrame.enable();
             this.hide();
         }
         else{

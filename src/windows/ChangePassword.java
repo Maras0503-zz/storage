@@ -5,6 +5,8 @@
  */
 package windows;
 
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import static utilities.TimeFunctions.*;
 
 /**
@@ -17,6 +19,7 @@ public class ChangePassword extends javax.swing.JFrame {
      */
     int isParentMainWindow = 0;
     public ChangePassword() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 

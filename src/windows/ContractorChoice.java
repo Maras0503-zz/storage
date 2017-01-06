@@ -7,8 +7,10 @@ package windows;
 
 import db.DbQueries;
 import entities.ContractorEntity;
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import javax.swing.BorderFactory;
 import tableTemplates.ChoiceContractorsTableTemplate;
 
 /**
@@ -17,13 +19,14 @@ import tableTemplates.ChoiceContractorsTableTemplate;
  */
 public class ContractorChoice extends javax.swing.JFrame {
     DbQueries wz = new DbQueries();
-    wzWindow parentFrameWzWindow;
+    wzListWindow parentFrameWzWindow;
     addProduct parentFrameAddProduct;
     int parentFrameId;
     /**
      * Creates new form ContractorChoice
      */
     public ContractorChoice() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
      /**

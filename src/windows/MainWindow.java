@@ -117,7 +117,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         adminMenu.setText("Administrator");
 
-        addUser.setLabel("Dodaj Użytkownika");
+        addUser.setText("Dodaj użytkownika");
         addUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addUserActionPerformed(evt);
@@ -195,7 +195,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addUserActionPerformed
 
     private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
-        wzWindow wzL = new wzWindow();
+        wzListWindow wzL = new wzListWindow();
         wzL.parentFrame = this;
         this.disable();
         wzL.show();

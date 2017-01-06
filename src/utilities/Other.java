@@ -18,4 +18,9 @@ public class Other {
         int width = (int)screenSize.getWidth();
         return width;
     }
+    public static int getScreenHeight(){
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = (int)screenSize.getWidth();
+        return height;
+    }
 }
