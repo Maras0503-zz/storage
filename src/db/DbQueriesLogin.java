@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import entities.UserEntity;
 import entities.userType;
-import java.io.Console;
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -19,6 +18,17 @@ import java.util.ArrayList;
 public class DbQueriesLogin {
     public DbConnect conn = new DbConnect();
     public UserEntity userAns = new UserEntity();
+    
+    //LOGOUT
+    public void logout(){
+        userAns.setId(0);
+        userAns.setFname("");
+        userAns.setLname("");
+        userAns.setLoginSucces(false);
+        userAns.setPass_expiration(0);
+        userAns.setType(0);
+    }
+    
     
     //SPRAWDZA CZY PRZY ZMIANIE HASŁA PODANO POPRAWNE STARE HASŁO
     public Boolean checkPass(String pass, int userId){
@@ -132,7 +142,7 @@ public class DbQueriesLogin {
         conn.disconnect();
     }
     
-    public List getTypes(){
+    public List<userType> getTypes(){
         List<userType> ans = new ArrayList<>();
         int id;
         String name;

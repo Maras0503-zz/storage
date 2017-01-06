@@ -7,9 +7,11 @@ package windows;
 
 import db.DbQueriesLogin;
 import entities.userType;
+import java.awt.Color;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import windows.LoginPage;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -20,8 +22,10 @@ public class addUser extends javax.swing.JFrame {
     /**
      * Creates new form addUser
      */
+    MainWindow parentFrame;
     DbQueriesLogin QLog = new DbQueriesLogin();
     public addUser() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
         List<userType> typeList = new ArrayList<>();
         typeList = LoginPage.conn.getTypes();
@@ -51,7 +55,9 @@ public class addUser extends javax.swing.JFrame {
         userPass = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         alertLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
+        setUndecorated(true);
         setResizable(false);
 
         addUserBtt.setText("Dodaj użytkownika");
@@ -80,6 +86,13 @@ public class addUser extends javax.swing.JFrame {
         alertLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         alertLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jButton1.setText("Zamknij");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,7 +102,8 @@ public class addUser extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(alertLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addUserBtt))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +148,9 @@ public class addUser extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(alertLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addUserBtt)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addUserBtt)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -214,12 +230,18 @@ public class addUser extends javax.swing.JFrame {
         }
         if(errorsCounter == 0){
             LoginPage.conn.addUser(userFName.getText(),userLName.getText() ,userLogin.getText(), userPass.getText(), userT.getSelectedItem().toString());
+            parentFrame.enable();
             this.hide();
         }
         else{
             alertLabel.setText(alertText);
         }
     }//GEN-LAST:event_addUserBttActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        parentFrame.enable();
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,6 +281,7 @@ public class addUser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserBtt;
     private javax.swing.JLabel alertLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

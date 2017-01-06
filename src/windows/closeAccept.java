@@ -5,18 +5,21 @@
  */
 package windows;
 
+import java.awt.Color;
 import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
 
 /**
  *
  * @author Marek
  */
 public class closeAccept extends javax.swing.JFrame {
-
+    MainWindow parentFrame;
     /**
      * Creates new form closeAccept
      */
     public closeAccept() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 
@@ -34,6 +37,7 @@ public class closeAccept extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jButton1.setText("Tak");
@@ -51,6 +55,7 @@ public class closeAccept extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Czy napewno chcesz wyjść z programu?");
 
@@ -89,6 +94,7 @@ public class closeAccept extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        parentFrame.enable();
         this.hide();
     }//GEN-LAST:event_jButton2ActionPerformed
 

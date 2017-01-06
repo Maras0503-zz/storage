@@ -5,7 +5,10 @@
  */
 package windows;
 
-import db.DbQueriesWZ;
+import db.DbQueries;
+import java.awt.Color;
+import java.awt.event.WindowEvent;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -17,11 +20,23 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
      * Creates new form confirmDeleteDocument
      */
     public confirmDeleteDocument() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         initComponents();
     }
 
     private int documentID;
+    private int selectedRow;
 
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public void setSelectedRow(int selectedRow) {
+        this.selectedRow = selectedRow;
+    }
+
+    
+    
     public int getDocumentID() {
         return documentID;
     }
@@ -29,13 +44,13 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
     public void setDocumentID(int documentID) {
         this.documentID = documentID;
     }
-    private wzList wzL;
+    private wzListWindow wzL;
 
-    public wzList getWzL() {
+    public wzListWindow getWzL() {
         return wzL;
     }
 
-    public void setWzL(wzList wzL) {
+    public void setWzL(wzListWindow wzL) {
         this.wzL = wzL;
     }
     
@@ -52,6 +67,8 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
+        setUndecorated(true);
+
         confirm.setText("TAK");
         confirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,6 +84,7 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Czy napewno chcesz usunąć dokument?");
 
@@ -97,16 +115,19 @@ public class confirmDeleteDocument extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    DbQueriesWZ wz = new DbQueriesWZ();
+    DbQueries wz = new DbQueries();
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         wz.delDoc(documentID);
         wzL.drawTable(wz.getWZDocs());
+        wzL.enable();
         this.hide();
     }//GEN-LAST:event_confirmActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        this.hide();
+        wzL.enable();
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_cancelActionPerformed
 
     /**

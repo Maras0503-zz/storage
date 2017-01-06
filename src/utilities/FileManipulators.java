@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package utilities;
 
 import java.io.BufferedReader;
@@ -11,13 +7,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import static utilities.TimeFunctions.nowTimestamp;
+import static utilities.TimeFunctions.longToTimestamp;
 /**
  *
  * @author Marek
  */
-public class FileManipulators {
-        public String readIp(){
+public  class FileManipulators {
+    
+    public static String readIp(){
         FileReader fr = null;
         String ip = "";
         try{
@@ -38,8 +36,8 @@ public class FileManipulators {
         catch (IOException e) {
         }
         return ip;
-    }
-    public void saveIp(String str){
+    }  
+    public static void saveIp(String str){
         String ip = str;
         FileWriter fw = null;
         try {
@@ -61,4 +59,29 @@ public class FileManipulators {
         }
         
     }
+    
+    public static void saveLog(){
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("src/settings/serverLog.txt", true);
+        }
+        catch(IOException e) { 
+        }
+        BufferedWriter bw = new BufferedWriter(fw);
+        try {
+            bw.append(longToTimestamp(nowTimestamp()) 
+                            + "-->> Nie odnaleziono serwera");
+            bw.newLine();
+        }
+        catch (IOException e) {
+        }
+        try {
+            bw.close();
+            fw.close();
+        }
+        catch (IOException e) {
+        }
+        
+    }
+    
 }

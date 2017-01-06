@@ -5,7 +5,8 @@
  */
 package windows;
 
-import javax.swing.JRootPane;
+import java.awt.Frame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -15,18 +16,18 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
     int login = LoginPage.conn.userAns.getId();
     public MainWindow() {
         initComponents();
+        this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
         zalogowany.setText("Zalogowany: "+LoginPage.conn.userAns.getFname()+" "+LoginPage.conn.userAns.getLname());
         if(LoginPage.conn.userAns.getType()==1){
             adminMenu.show();
         }
         else{
             adminMenu.hide();
-        }
-
-        
+        }        
     }
 
     /**
@@ -38,11 +39,12 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
         zalogowany = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        logout = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         documents = new javax.swing.JMenu();
         newWZ = new javax.swing.JMenuItem();
@@ -50,27 +52,39 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         adminMenu = new javax.swing.JMenu();
         addUser = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        logout = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(800, 640));
+        setUndecorated(true);
         setResizable(false);
 
         zalogowany.setForeground(new java.awt.Color(0, 204, 51));
 
-        jMenu1.setText("File");
+        jMenu2.setText("Użytkownik");
 
-        logout.setText("Zamknij");
-        logout.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem6.setText("Zmień hasło");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutActionPerformed(evt);
+                jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu1.add(logout);
+        jMenu2.add(jMenuItem6);
 
-        jMenuBar1.add(jMenu1);
+        jMenuItem5.setText("Wyloguj");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
 
-        jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Magazyn");
@@ -90,6 +104,11 @@ public class MainWindow extends javax.swing.JFrame {
         products.setText("Towary");
 
         jMenuItem1.setText("Katalog");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         products.add(jMenuItem1);
 
         jMenu3.add(products);
@@ -98,7 +117,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         adminMenu.setText("Administrator");
 
-        addUser.setLabel("Dodaj Użytkownika");
+        addUser.setText("Dodaj użytkownika");
         addUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addUserActionPerformed(evt);
@@ -106,7 +125,36 @@ public class MainWindow extends javax.swing.JFrame {
         });
         adminMenu.add(addUser);
 
+        jMenuItem4.setText("Dodaj produkt");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        adminMenu.add(jMenuItem4);
+
         jMenuBar1.add(adminMenu);
+
+        jMenu4.setText("Okno");
+
+        jMenuItem3.setText("Minimalizuj");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        logout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        logout.setText("Zamknij");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        jMenu4.add(logout);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -122,7 +170,7 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(582, Short.MAX_VALUE)
+                .addContainerGap(606, Short.MAX_VALUE)
                 .addComponent(zalogowany)
                 .addContainerGap())
         );
@@ -131,21 +179,63 @@ public class MainWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         closeAccept clAc = new closeAccept();
+        clAc.parentFrame = this;
+        this.disable();
         clAc.show();
     }//GEN-LAST:event_logoutActionPerformed
 
     private void addUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserActionPerformed
         addUser adUs = new addUser();
+        adUs.parentFrame = this;
+        this.disable();
         adUs.show();
     }//GEN-LAST:event_addUserActionPerformed
 
     private void newWZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWZActionPerformed
-        wzList wzL = new wzList();
+        wzListWindow wzL = new wzListWindow();
+        wzL.parentFrame = this;
+        this.disable();
         wzL.show();
     }//GEN-LAST:event_newWZActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        productsWindow prodWind = new productsWindow();
+        prodWind.parentFrame = this;
+        this.disable();
+        prodWind.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        addProduct addProd = new addProduct();
+        addProd.parentFrameMainWidnow = this;
+        addProd.parentFrameId = 2;
+        addProd.show();
+        this.disable();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        LoginPage.conn.logout();
+        LoginPage logPage = new LoginPage();
+        logPage.show();
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ChangePassword chPass = new ChangePassword();
+        chPass.isParentMainWindow = 1;
+        chPass.show();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    public void onClose(){
+        closeAccept clAc = new closeAccept();
+        clAc.show();
+    }
     /**
      * @param args the command line arguments
      */
@@ -188,11 +278,16 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem addUser;
     private javax.swing.JMenu adminMenu;
     private javax.swing.JMenu documents;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenuItem newWZ;
     private javax.swing.JMenu products;
